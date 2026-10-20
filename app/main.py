@@ -5,6 +5,7 @@ from sqlalchemy import text
 from db.base import Base
 from db.session import engine
 from models import users, transactions, categories, budgets
+from routers import app_router
 
 app = FastAPI()
 router = APIRouter()
@@ -19,4 +20,5 @@ async def health_check(db : db_dependancy):
     return { 'service': 'backend', 'datetime': datetime.now(timezone.utc), 'status': True}
 
 
-app.include_router(router)
+app.include_router(router, prefix='/api/v1')
+app.include_router(app_router.router, prefix='/api/v1')
